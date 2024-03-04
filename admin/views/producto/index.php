@@ -10,6 +10,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Precio</th>
             <th scope="col">Marca</th>
+            <th scope="col">Fotografia</th>
             <th scope="col">Opciones</th>
         </tr>
     </thead>
