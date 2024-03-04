@@ -1,8 +1,11 @@
 <?php
 //CONTROLADOR
 include('producto.class.php');
+include('marca.class.php');
 $app = new Producto();
+$appmarcas = new Marca(); // Instanciamos la clase Marca
 include('views/header.php');
+$marcas = $appmarcas->getAll(); // Obtenemos todas las marcas
 $action = (isset($_GET['action'])) ? $_GET['action'] : null;
 $id_producto = (isset($_GET['id_producto'])) ? $_GET['id_producto'] : null;
 $datos = array();
@@ -26,6 +29,12 @@ switch ($action) {
         break;
     case 'save':
         $datos = $_POST;
+        //echo "<pre>";
+        /*print_r($_GET);
+        print_r($_POST);
+        print_r($_FILES);
+        die;*/
+        $datos['fotografia'] = $_FILES['fotografia']['name'];//Obtenemos el nombre del archivo, no el archivo.
         if ($app->Insert($datos)) {
             $alerta['tipo']="success";
             $alerta['mensaje']="El producto se registro correctamente";
