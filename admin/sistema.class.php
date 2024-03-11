@@ -1,13 +1,10 @@
 <?php
+require __DIR__ ."../config.php";
 class Sistema{
     var $conn;
     var $count=0;
     function connect(){
-        $servername = "localhost";
-        $username = "ferreteria";
-        $password = "123";
-        $dbname = "ferreteria";
-        $this->conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $this->conn = new PDO(DB_DRIVER.':host='.DB_HOST.';dbname='.DB_NAME,DB_USER,DB_PASSWORD);
     }
     function setCount($count){ $this->count = $count; }
     function getCount(){ return $this->count; }
@@ -22,6 +19,7 @@ class Sistema{
                 $num_aleatorio = rand(0,1000000);
                 $nombre_archivo = $num_aleatorio.$_FILES['fotografia']['size'].$_FILES['fotografia']['name'];
                 $nombre_archivo = md5($nombre_archivo); //encriptar el nombre, longitud 32 
+                
                 $extension = explode('.',$_FILES['fotografia']['name']); //Genera en $extension un array
                 $extension = $extension[sizeof($extension)-1]; //Obtiene la extensión del archivo
                 $nombre_archivo = $nombre_archivo.'.'.$extension; //Concatena el nombre del archivo con la extensión
@@ -30,7 +28,6 @@ class Sistema{
                     move_uploaded_file($_FILES['fotografia']['tmp_name'],'../uploads/'.$carpeta.'/'.$nombre_archivo);
                     return $nombre_archivo;   
                 }
-
             }
         }
         return false;

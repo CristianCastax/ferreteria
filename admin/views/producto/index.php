@@ -21,6 +21,7 @@
                 <td><?php echo $dato['producto']; ?></td>
                 <td><?php echo $dato['precio']; ?></td>
                 <td><?php echo $dato['marca']; ?></td>
+                <td><?php echo $dato['fotografia']; ?></td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a href="producto.php?action=update&id_producto=<?php echo $dato['id_producto']; ?>"

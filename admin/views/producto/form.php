@@ -5,7 +5,6 @@
             <label for="producto" class="form-label">Producto</label>
             <input type="text" class="form-control" id="producto" name="producto" placeholder="Captura el producto" required="required" value="<?php echo (isset($datos["producto"])) ? $datos["producto"]:'';?>">
         </div>
-
         <div class="mb-3">
             <label for="precio" class="form-label">Precio</label>
             <input type="text" class="form-control" id="precio" name="precio" placeholder="Captura el precio" required="required" value="<?php echo (isset($datos["precio"])) ? $datos["precio"]:'';?>">
@@ -23,10 +22,16 @@
                 <?php endforeach;?>
             </select>
         </div>
-        
+        <?php if($action=='update'):?>
+        <div class="mb-3">
+        <label for="Fotografia" class="form-label">Fotografia Actual</label>
+            <img src="../uploads/productos/<?php echo $datos['fotografia'] ?>" alt="" width="50%">
+        </div>
+        <?php endif;?>
+
         <div class="mb-3">
             <label for="Fotografia" class="form-label">Fotografia</label>
-            <input type="file" class="form-control" id="fotografia" name="fotografia" placeholder="Captura tu fotografia" required="required" value="<?php echo (isset($datos["fotografia"])) ? $datos["fotografia"]:'';?>">
+            <input type="file" class="form-control" id="fotografia" name="fotografia" placeholder="Captura tu fotografia" value="<?php echo (isset($datos["fotografia"])) ? $datos["fotografia"]:'';?>">
         </div>
         
 

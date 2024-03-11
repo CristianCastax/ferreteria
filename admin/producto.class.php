@@ -31,31 +31,51 @@ class Producto extends Sistema{
     }
     function Insert($datos){
         $this->connect();
-        if ($this->validate_producto($datos)) {
-            $stmt = $this->conn->prepare("INSERT INTO producto 
-                                            (producto, precio, fotografia, id_marca)
-                                            VALUES (:producto, :precio, :fotografia, :id_marca);");
+        $nombre_archivo = $this->upload('productos'); //nombre tendrá dos posibles valores, el nombre del archivo o false
+        if ($nombre_archivo){
+            if ($this->validate_producto($datos)) {
+                $stmt = $this->conn->prepare("INSERT INTO producto (producto, precio, fotografia, id_marca)
+                                                VALUES (:producto, :precio, :fotografia, :id_marca);");
+                $stmt->bindParam(':producto', $datos['producto'], PDO::PARAM_STR);
+                $stmt->bindParam(':precio', $datos['precio'], PDO::PARAM_STR);
+                $stmt->bindParam(':fotografia', $nombre_archivo, PDO::PARAM_STR);
+                $stmt->bindParam(':id_marca', $datos['id_marca'], PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->rowCount();
+            }
+        }
+        else{
+            $stmt = $this->conn->prepare("INSERT INTO producto (producto, precio, id_marca) VALUES (:producto, :precio, :id_marca);");
             $stmt->bindParam(':producto', $datos['producto'], PDO::PARAM_STR);
             $stmt->bindParam(':precio', $datos['precio'], PDO::PARAM_STR);
-            $stmt->bindParam(':fotografia', $datos['fotografia'], PDO::PARAM_STR);
             $stmt->bindParam(':id_marca', $datos['id_marca'], PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->rowCount();
+            return $stmt->rowCount();    
         }
         return 0;
     }
 
     function Update($id_producto,$datos){//datos es un array
         $this->connect();
-        $stmt = $this->conn->prepare("UPDATE producto SET 
+        $nombre_archivo = $this->upload('productos');
+        if($nombre_archivo){
+            $stmt = $this->conn->prepare("UPDATE producto SET 
+            producto=:producto,
+            precio=:precio,
+            fotografia=:fotografia,
+            id_marca=:id_marca
+            WHERE id_producto=:id_producto;");
+            $stmt->bindParam(':fotografia', $nombre_archivo, PDO::PARAM_STR);
+        }
+        else{
+            $stmt = $this->conn->prepare("UPDATE producto SET 
                                         producto=:producto,
                                         precio=:precio,
-                                        fotografia=:fotografia,
                                         id_marca=:id_marca
                                         WHERE id_producto=:id_producto;");
+        }
         $stmt->bindParam(':producto', $datos['producto'], PDO::PARAM_STR);
         $stmt->bindParam(':precio', $datos['precio'], PDO::PARAM_STR);
-        $stmt->bindParam(':fotografia', $datos['fotografia'], PDO::PARAM_STR);
         $stmt->bindParam(':id_marca', $datos['id_marca'], PDO::PARAM_INT);
         $stmt->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
         $stmt->execute();
