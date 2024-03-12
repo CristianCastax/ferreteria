@@ -1,6 +1,6 @@
 <?php
 require __DIR__ ."../config.php";
-class Sistema{
+class Sistema extends CONFIG{
     var $conn;
     var $count=0;
     function connect(){
@@ -10,11 +10,10 @@ class Sistema{
     function getCount(){ return $this->count; }
 
     function upload($carpeta){ //Para validar lo que suban 
-        $permitidos = array('image/gif', 'image/png', 'image/jpeg'); //tipos mime permitidos
         //si entra quiere decir que si está en los archivos permitido
-        if(in_array($_FILES['fotografia']['type'],$permitidos)){
+        if(in_array($_FILES['fotografia']['type'],$this->getImageType())){
             //preguntar por el tamaño
-            if($_FILES['fotografia']['size']<=500000){
+            if($_FILES['fotografia']['size']<=$this->getImageSize()){
                 //preguntar por el nombre para que sean diferentes
                 $num_aleatorio = rand(0,1000000);
                 $nombre_archivo = $num_aleatorio.$_FILES['fotografia']['size'].$_FILES['fotografia']['name'];

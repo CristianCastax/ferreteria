@@ -1,6 +1,6 @@
 <?php
 //MODELO 
-require_once("sistema.class.php");
+require_once(__DIR__."/sistema.class.php");
 class Producto extends Sistema{
     function getAll(){
         $this->connect();

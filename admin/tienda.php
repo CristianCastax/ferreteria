@@ -1,8 +1,8 @@
 <?php
 //CONTROLADOR
-include('tienda.class.php');
+include(__DIR__.'/tienda.class.php');
 $app = new Tienda();
-include('views/header.php');
+include(__DIR__.'/views/header.php');
 $action = (isset($_GET['action'])) ? $_GET['action'] : null;
 $id_tienda = (isset($_GET['id_tienda'])) ? $_GET['id_tienda'] : null;
 $datos = array();
@@ -18,11 +18,11 @@ switch ($action) {
             $alerta['mensaje']="No se pudo eliminar la tienda";
         }
         $datos = $app->getAll();
-        include('views/alert.php');
-        include('views/tienda/index.php');
+        include(__DIR__.'/views/alert.php');
+        include(__DIR__.'/views/tienda/index.php');
         break;
     case 'create':
-        include('views/tienda/form.php');
+        include(__DIR__.'/views/tienda/form.php');
         break;
     case 'save':
         $datos = $_POST;
@@ -34,19 +34,19 @@ switch ($action) {
             $alerta['mensaje']="No se pudo registrar la tienda";
         }
         $datos = $app->getAll();
-        include('views/alert.php');
-        include('views/tienda/index.php');
+        include(__DIR__.'/views/alert.php');
+        include(__DIR__.'/views/tienda/index.php');
         break;
     case 'update':
         $datos = $app->getOne($id_tienda);
         if (isset($datos["id_tienda"])) {
-            include('views/tienda/form.php');
+            include(__DIR__.'/views/tienda/form.php');
         }else {
             $alerta['tipo']="danger";
             $alerta['mensaje']="No existe la tienda especificada.";
             $datos = $app->getAll();
-            include('views/alert.php');
-            include('views/tienda/index.php');
+            include(__DIR__.'/views/alert.php');
+            include(__DIR__.'/views/tienda/index.php');
         }
         break;
     case 'change':
@@ -59,11 +59,11 @@ switch ($action) {
             $alerta['mensaje']="No se pudo actualizar la tienda";
         }
         $datos = $app->getAll();
-        include('views/alert.php');
-        include('views/tienda/index.php');
+        include(__DIR__.'/views/alert.php');
+        include(__DIR__.'/views/tienda/index.php');
         break;
     default:
         $datos = $app->getAll();
-        include('views/tienda/index.php');
+        include(__DIR__.'/views/tienda/index.php');
 }
-include('views/footer.php');
+include(__DIR__.'/views/footer.php');

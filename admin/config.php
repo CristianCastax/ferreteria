@@ -5,7 +5,13 @@ define('DB_HOST', 'localhost');
 define('DB_NAME', 'ferreteria');
 define('DB_USER', 'ferreteria');
 define('DB_PASSWORD', '123');
-$image = array();
-$image['size'] = 500000;
-$image['type'] = array('image/jpeg', 'image/png', 'image/gif');
+class config{
+    //var $image = array();	
+    function getImageSize(){
+        return 512000;
+    }
+    function getImageType(){
+        return array('image/jpeg', 'image/png', 'image/gif');
+    }
+}
 ?>
