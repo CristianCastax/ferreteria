@@ -27,6 +27,8 @@
                     <li><a class="dropdown-item" href="marca.php">Marcas</a></li>
                     <li><a class="dropdown-item" href="producto.php">Productos</a></li>
                     <li><a class="dropdown-item" href="tienda.php">Tiendas</a></li>
+                    <li><a class="dropdown-item" href="empleado.php">Empleados</a></li>
+                    <li><a class="dropdown-item" href="cliente.php">Clientes</a></li>
                 </ul>
                 </li>
             </ul>
