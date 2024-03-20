@@ -2,11 +2,19 @@
 include(__DIR__.'/views/header.php');
 include('sistema.class.php');
 $app = new Sistema();
-$sql = 'select m.marca as marca, SUM(p.precio*vd.cantidad) as dinero_generado
+$sql = 'SELECT m.marca as marca, SUM(p.precio*vd.cantidad) as dinero_generado
 from marca m left join producto p on m.id_marca = p.id_marca
              left join venta_detalle vd on p.id_producto = vd.id_producto
 group by m.marca order by m.marca asc;';
 $datos = $app->query($sql);
+$roles = $app->getRol('luislao@itcelaya.edu.mx');
+$privilegios = $app->getPrivilegio('luislao@itcelaya.edu.mx');
+echo '<pre>';
+print_r($roles);
+print_r($privilegios);
+$login = $app->login('21030140@itcelaya.edu.mx','1234');
+var_dump($login); //ve hasta los tipos de dato
+die;
 ?>
 <script type="text/javascript">
     google.charts.load("current", {packages:["corechart"]});

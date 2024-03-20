@@ -19,14 +19,21 @@
     <!--RFC-->    
         <div class="mb-3"> 
             <label for="rfc" class="form-label">RFC</label>
-            <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Captura tu RFC" required="required" value="<?php echo (isset($datos["rfc"])) ? $datos["rfc"]:'';?>">
+            <input type="text" pattern="[A-Z]{4}[0-9]{6}[A-Z0-9]{3}" class="form-control" id="rfc" name="rfc" placeholder="Captura tu RFC" required="required" value="<?php echo (isset($datos["rfc"])) ? $datos["rfc"]:'';?>">
         </div>
     <!--CURP-->    
         <div class="mb-3"> 
             <label for="curp" class="form-label">CURP</label>
-            <input type="text" class="form-control" id="curp" name="curp" placeholder="Captura CURP" required="required" value="<?php echo (isset($datos["curp"])) ? $datos["curp"]:'';?>">
+            <input type="text" pattern="[A-Z]{4}[0-9]{6}[H|M]{1}[A-Z0-9]{7}" class="form-control" id="curp" name="curp" placeholder="Captura CURP" required="required" value="<?php echo (isset($datos["curp"])) ? $datos["curp"]:'';?>">
         </div>
+    <!--FOTOGRAFIA-->   
+    <div class="mb-3"> 
+        <label for="curp" class="form-label">CAMARA</label>
+
+        <?php include('/xampp/htdocs/ferreteria2/admin/tomandofoto/index.php'); ?>
+    </div>
 
         <input type="submit" class="btn btn-primary" name="save" value="Guardar"></input>
+        <a href="empleado.php" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>

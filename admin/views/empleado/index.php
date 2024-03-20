@@ -12,6 +12,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">RFC</th>
             <th scope="col">CURP</th>
+            <th scope="col">Fotografia</th>
             <th scope="col">Opciones</th>
         </tr>
     </thead>

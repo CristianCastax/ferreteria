@@ -15,6 +15,51 @@ class Sistema extends CONFIG{
         $datos = $stmt->fetchAll();
         return $datos;
     }
+
+    function getRol($correo){
+        $sql = "SELECT r.rol from usuario u
+        join usuario_rol ur on u.id_usuario = ur.id_usuario
+        join rol r on ur.id_rol = r.id_rol
+        where u.correo = '".$correo."';";
+        $datos = $this->query($sql);
+        $info = array();
+        foreach($datos as $row)
+            array_push($info,$row['rol']);
+        return $info;
+    }
+
+    function getPrivilegio($correo){
+        $sql = "SELECT p.privilegio from usuario u
+        join usuario_rol ur on u.id_usuario = ur.id_usuario
+        join rol_privilegio rp on ur.id_rol = rp.id_rol
+        join rol r on ur.id_rol = r.id_rol
+        join privilegio p on rp.id_privilegio = p.id_privilegio
+        where u.correo = '".$correo."';";
+        $datos = $this->query($sql);
+        $info = array();
+        foreach($datos as $row)
+            array_push($info,$row['privilegio']);
+        return $info;
+    }
+
+    function login($correo, $contrasena){
+        $contrasena = md5($contrasena); //Encriptar la contraseña
+        $this->connect();
+        $sql = 'SELECT * from usuario
+        where correo = :correo and contrasena = :contrasena;';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':correo',$correo, PDO::PARAM_STR);
+        $stmt->bindParam(':contrasena',$contrasena, PDO::PARAM_STR);
+        $stmt->execute();
+        $datos = array();
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $datos = $stmt->fetchAll();//Obtiene los datos de la consulta
+        if(isset($datos[0])){
+            return $datos[0];
+        }
+        return false;
+    }
+
     function setCount($count){ $this->count = $count; }
     function getCount(){ return $this->count; }
 

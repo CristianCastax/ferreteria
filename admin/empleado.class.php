@@ -41,6 +41,38 @@ class Empleado extends Sistema{
         }
         return 0;
     }
+/*
+    function Insert($datos){
+        $this->connect();
+        // Primero, verifica si se ha enviado una imagen
+        $imagenCodificada = file_get_contents("php://input"); //Obtener la imagen
+
+            if(strlen($imagenCodificada) <= 0) {
+                $imagenCodificadaLimpia = null; // Si no se envió una imagen, se guarda como null en la base de datos
+            }
+            if(strlen($imagenCodificada) > 0) { //La imagen traerá al inicio data:image/png;base64, cosa que debemos remover
+                //Venía en base64 pero sólo la codificamos así para que viajara por la red, ahora la decodificamos y
+                //todo el contenido lo guardamos en un archivo
+                $imagenCodificadaLimpia = str_replace("data:image/png;base64,", "", urldecode($imagenCodificada));
+                $imagenDecodificada = base64_decode($imagenCodificadaLimpia);
+            }
+    
+        if ($this->validate_empleado($datos)) {
+            $stmt = $this->conn->prepare("INSERT INTO empleado (primer_apellido, segundo_apellido, nombre, rfc, curp, fotografia)
+                                        VALUES (:primer_apellido, :segundo_apellido, :nombre, :rfc, :curp, :fotografia);");
+            $stmt->bindParam(':primer_apellido', $datos['primer_apellido'], PDO::PARAM_STR);
+            $stmt->bindParam(':segundo_apellido', $datos['segundo_apellido'], PDO::PARAM_STR);
+            $stmt->bindParam(':nombre', $datos['nombre'], PDO::PARAM_STR);
+            $stmt->bindParam(':rfc', $datos['rfc'], PDO::PARAM_STR);
+            $stmt->bindParam(':curp', $datos['curp'], PDO::PARAM_STR);
+            $stmt->bindParam(':fotografia', $imagenCodificadaLimpia);
+            $stmt->execute();
+            return $stmt->rowCount();
+        }
+        return 0;
+    }
+    */
+    
 
     function Update($id_empleado,$datos){//datos es un array
         $this->connect();
@@ -70,10 +102,33 @@ class Empleado extends Sistema{
         return $stmt->rowCount();
     }
 
+    function validarRFC($rfc){
+        $regex = '/^[A-Z]{4}[0-9]{6}[A-Z0-9]{3}$/'; //para una expresion regular se inicia con /^ y se termina con /$
+        return preg_match($regex, $rfc);
+    }
+    function validarCURP($curp){
+        $regex = '/^[A-Z]{4}[0-9]{6}[H|M]{1}[A-Z0-9]{7}$/'; //para una expresion regular se inicia con /^ y se termina con /$
+        return preg_match($regex, $curp);
+    }
+
     function validate_empleado($datos){
         if (empty($datos['nombre'])) {
             return false;
         }   
+        if (empty($datos['rfc'])) {
+            return false;
+        }
+        if (empty($datos['curp'])) {
+            return false;
+        }
+        if (!$this->validarRFC($datos['rfc'])) { //
+            return false;
+        }
+        if (!$this->validarCURP($datos['curp'])) { //
+            return false;
+        }
         return true;
     }
+
+    
 }
